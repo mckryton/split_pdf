@@ -1,14 +1,10 @@
-#!/usr/bin/ruby
-
 require 'combine_pdf'
 
-if ::ARGV[0] == nil
-  puts "usage: split_pdf.rb <pdf_file_name>"
-  -1
-else
-  scanPdfPath = ARGV[0]
+ARGF.each do |f|
 
-  #todo: validate path
+  scanPdfPath = f.to_s.chop
+
+  puts "split pdf  >>" + scanPdfPath.to_s + "<<"
 
   scanPdf = CombinePDF.load(scanPdfPath)
 
@@ -20,7 +16,10 @@ else
     0.upto(targetSize-1) do |targetPageOffset|
       newPage = scanPdf.pages[currentSourcePageIndex + targetPageOffset].copy
       targetPdf.insert -1 , newPage
-      targetPdf.save "target-" + currentSourcePageIndex.to_s + ".pdf"
     end
+    newPath = scanPdfPath.slice(0, scanPdfPath.length - 4)
+    newPath = newPath + "_split_" + (currentSourcePageIndex / targetSize).to_s + ".pdf"
+    puts "create split pdf >>" + newPath + "<<"
+    targetPdf.save newPath
   end
 end
