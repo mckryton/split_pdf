@@ -1,16 +1,13 @@
 require 'combine_pdf'
 
-if ::ARGV[0] == nil
-  puts "usage: rotate_pdf.rb <pdf_file_name>"
-  -1
-else
-  scanPdfPath = ARGV[0]
-
+ARGF.each do |f|
+  scanPdfPath = f.to_s.chop
+  puts "rotate pdf #{scanPdfPath}"
   #todo: validate path
 
   scanPdf = CombinePDF.load(scanPdfPath)
   scanPdf.pages.each do |page|
-    page.rotate_left
+    page.rotate_right
   end
   scanPdf.save(scanPdfPath)
 end
