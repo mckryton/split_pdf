@@ -12,7 +12,7 @@ else
 
   scanPdf = CombinePDF.load(scanPdfPath)
   scanPdf.pages.each do |page|
-    page.rotate_left
+    page.rotate_right
   end
   scanPdf.save(scanPdfPath)
 end
